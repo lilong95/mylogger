@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.mylogger.mapper.RevertMapper">
+
+	<select id="selectById" parameterType="string" resultType="Revert">
+	</select>
+
+	<delete id="deleteById" parameterType="string"></delete>
+
+	<insert id="insert" parameterType="Revert">
+	</insert>
+
+	<update id="update" parameterType="Revert"></update>
+
+	<select id="findPage" resultType="Revert">
+		select * from Revert
+	</select>
+
+	<!-- 根据ArticleId 联表分页查询 该文章对应的回复内容和回复内容-->
+	<select id="getPageByArticleId" parameterType="String" resultType="RevertVo">
+		SELECT
+		r.id,
+		r.user_id AS userId,
+		r.article_id AS articleId,
+		r.parent_id AS parentId,
+		r.content,
+		r.create_dt AS createDt,
+		`u`.nickname AS userName
+		FROM
+		revert r,`user` u 
+		where r.user_id=u.id 
+		and article_id=#{articleId}
+		order By create_dt desc
+	</select>
+</mapper>

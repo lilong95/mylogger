@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.mylogger.mapper.ArticleMapper">
+
+	<select id="selectById" parameterType="string" resultType="Article">
+	</select>
+
+	<delete id="deleteById" parameterType="string"></delete>
+
+	<insert id="insert" parameterType="Article">
+	</insert>
+
+	<update id="update" parameterType="Article"></update>
+
+	<select id="findPage" resultType="Article">
+		select * from Article
+	</select>
+
+	<!-- 分页查询帖子概要内容 -->
+	<select id="getPageByThemeName" parameterType="String"
+		resultType="ArticleVo">
+		SELECT a.id,a.user_id AS userId,a.title,
+		<!-- a.content,这里无需取正文内容 -->
+		a.create_dt AS createDt,
+		a.visit_num AS visitNum,
+		a.last_revert_dt AS lastRevertDt,
+		a.theme,u.nickname AS userName
+		FROM
+		article a,`user` u where a.user_id=u.id 
+		<if test="themeName!=null and themeName!=''">
+			AND a.theme=#{themeName}
+		</if>
+		order by a.last_revert_dt desc
+	</select>
+	<!-- 查询帖子详细内容 -->
+	<select id="getVoById" parameterType="String" resultType="ArticleVo">
+		SELECT a.id,a.user_id AS userId,a.title,
+		a.content,
+		a.create_dt AS createDt,
+		a.visit_num AS visitNum,
+		a.last_revert_dt AS lastRevertDt,
+		a.theme,u.nickname AS userName
+		FROM
+		article a,`user` u where a.user_id=u.id
+		and a.id=#{id}
+	</select>
+
+</mapper>
