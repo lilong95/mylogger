@@ -22,4 +22,4 @@
 
 <script
 	src="<%=request.getContextPath()%>/static/assets/js/functions.js"></script>
-<!-- <script src="js/demo.js"></script>-->
+<!-- <script src="js/demo.js"></script> -->
